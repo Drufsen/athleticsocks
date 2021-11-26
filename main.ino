@@ -42,7 +42,7 @@ void loop(){
 
     //gameloop
     while(alive && level<rounds) {
-        Serial.println("enter control lamp(s)");
+        //Serial.println("enter control lamp(s)");
 
         //control lamp(s)
         for(int lys = 0; lys < level; ++lys) {
@@ -62,7 +62,7 @@ void loop(){
                 digitalWrite(9, LOW);
             }
             else {
-                loose();
+                loose(level);
             }
             repeat++;
         }
@@ -75,7 +75,7 @@ void loop(){
 
 //lamp function
 void lampa(int l) {
-    Serial.println("enter lampa");
+    //Serial.println("enter lampa");
     delay(time);
     switch (l) {
     case 1:
@@ -112,13 +112,13 @@ void lampa(int l) {
 }
 
 int sensor() {
-    Serial.println("enter sensors");
+    //Serial.println("enter sensors");
     //variables
     int sensorID=0; //the ID of the select sensor
     while(sensorID==0){
         //sensor 1, generator
         //on A0
-        if(analogRead(A0)<800){
+        if(analogRead(A0)<400){
             sensorID=1;
         }
         //sensor 2, pushbutton
@@ -148,14 +148,14 @@ int sensor() {
         //    wait();
         //}
     }
-    Serial.print("sensor ID=");
-    Serial.println(sensorID);
+    //Serial.print("sensor ID=");
+    //Serial.println(sensorID);
     return(sensorID);
 }
 
 void win(){
     //win routine
-    Serial.println("congratulations");
+    //Serial.println("congratulations");
     digitalWrite(9, HIGH);
     digitalWrite(13, HIGH);
     delay(time);
@@ -176,9 +176,8 @@ void win(){
 }
 
 //game lost
-void loose(){
+void loose(int score){
     //loose routine
-    Serial.println("looser :(");
     digitalWrite(8, HIGH);
     digitalWrite(13, HIGH);
     delay(time);
@@ -193,6 +192,9 @@ void loose(){
     delay(time);
     digitalWrite(8, LOW);
 
+    Serial.print("YOUR SCORE WAS: ");
+    Serial.println(score-1);
+    Serial.println("---------------");
     //reset
     alive=false;
 }
